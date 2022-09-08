@@ -1,0 +1,41 @@
+server:
+  port: 9444
+
+spring:
+  application:
+    name: pm-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+      routes:
+        - id: service-community
+          uri: lb://pm-service-community
+          predicates:
+            - Path=/community/**,
+
+        - id: service-owner
+          uri: lb://pm-service-owner
+          predicates:
+            - Path=/owner/**,
+
+        - id: service-parking
+          uri: lb://pm-service-parking
+          predicates:
+            - Path=/parking/**,
+
+        - id: service-property
+          uri: lb://pm-service-property
+          predicates:
+            - Path=/property/**,
+
+        - id: service-role
+          uri: lb://pm-service-role
+          predicates:
+            - Path=/role/**,
