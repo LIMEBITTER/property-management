@@ -3,6 +3,7 @@ package cat.config;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
  * 公共字段的自动填充功能
  */
 @Slf4j
+@Primary
 @Component
 public class CommunityMetaData implements MetaObjectHandler {
 

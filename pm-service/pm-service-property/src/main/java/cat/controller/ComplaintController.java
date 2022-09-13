@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import result.R;
 
+import javax.websocket.server.PathParam;
+import java.util.List;
+
 /**
  * <p>
  * 投诉表 前端控制器
@@ -79,6 +82,8 @@ public class ComplaintController {
         }
         return R.error("删除投诉信息失败");
     }
+
+
 
 }
 

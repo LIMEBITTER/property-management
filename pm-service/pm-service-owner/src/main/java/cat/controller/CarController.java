@@ -1,16 +1,24 @@
 package cat.controller;
 
 
+import cat.client.OwnerClient;
+import cat.dto.CarDto;
+import cat.dto.OwnerDto;
 import cat.entity.Car;
+import cat.entity.Community;
 import cat.entity.Owner;
 import cat.entity.QueryPageBean;
 import cat.service.CarService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -27,9 +35,12 @@ public class CarController {
     @Autowired
     CarService service;
 
+    @Autowired
+    OwnerClient ownerClient;
+
     //分页获取小区信息
     @PostMapping("/getAllCars")
-    public R<Page<Car>> getAllCommunities(@RequestBody QueryPageBean queryPageBean){
+    public R<Page<CarDto>> getAllCommunities(@RequestBody QueryPageBean queryPageBean){
         System.out.println(queryPageBean);
         //page对象需要接收当前页和每页条数
         Page<Car> pageInfo = new Page<>(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
@@ -38,8 +49,29 @@ public class CarController {
         //通过 车牌号 来查询
         queryWrapper.like(queryPageBean.getQueryString()!=null, Car::getCarNumber,queryPageBean.getQueryString());
         Page<Car> carList = service.page(pageInfo, queryWrapper);
-//        System.out.println(carList.toString());
-        return R.success(carList);
+
+        //跨表查询！！！！
+        Page<CarDto> carDtoPage = new Page<>();
+        BeanUtils.copyProperties(carList, carDtoPage,"records");
+
+        List<Car> records = carList.getRecords();
+
+        List<CarDto> list = records.stream().map(car -> {
+            CarDto carDto = new CarDto();
+            //从owner表获取社区id
+            Integer ownerId = car.getOwnerId();
+            System.out.println("========ownerid======"+ownerId);
+            //通过feign调用community controller方法查询社区名称
+            String ownerName = ownerClient.findNameById(ownerId);
+
+            BeanUtils.copyProperties(car, carDto);
+            carDto.setOwnerName(ownerName);
+            return carDto;
+        }).collect(Collectors.toList());
+
+        carDtoPage.setRecords(list);
+
+        return R.success(carDtoPage);
     }
     //新增
     @PostMapping("/add")
@@ -80,5 +112,9 @@ public class CarController {
         }
         return R.error("删除车辆信息失败");
     }
+
+
+
+
 }
 

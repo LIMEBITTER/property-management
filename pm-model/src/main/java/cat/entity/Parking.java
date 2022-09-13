@@ -29,6 +29,8 @@ public class Parking implements Serializable {
 
 //    @ApiModelProperty("所属小区名称")
     private String communityName;
+    //
+    private Integer ownerId;
 
 //    @ApiModelProperty("所属小区ID")
     private Integer communityId;

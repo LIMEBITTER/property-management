@@ -80,5 +80,24 @@ public class CommunityController {
         return R.error("删除小区信息失败");
     }
 
+    //feign  owner业务调用community方法
+    @PostMapping("/{communityId}")
+    public String findNameById(@PathVariable Integer communityId){
+
+        Community byId = service.getById(communityId);
+        String name = byId.getName();
+
+        return name;
+    }
+
+    //获取所有小区的名称
+    @GetMapping("/getCommunityList")
+    public R<List<Community>> getCommunityList(){
+
+        List<Community> list = service.list();
+
+        return R.success(list);
+    }
+
 }
 

@@ -51,13 +51,16 @@ public class EstateManager implements Serializable {
     private String email;
 
 //    @ApiModelProperty("角色ID：0-普通用户（默认0），1-管理员用户")
-    private Integer roleId;
+//    private Integer roleId;
 
 //    @ApiModelProperty("创建时间")
     private Date createTime;
 
 //    @ApiModelProperty("更新时间")
     private Date updateTime;
+
+    private String token;
+
 
 
 }

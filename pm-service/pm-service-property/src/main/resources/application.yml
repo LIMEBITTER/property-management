@@ -24,6 +24,13 @@ spring:
     date-format: yyyy-MM-dd
     time-zone: GMT+8
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: zxb
+    password: 123456
+    publisher-confirm-type: 
+
 
 mybatis-plus:
 

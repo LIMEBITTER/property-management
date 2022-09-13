@@ -4,6 +4,7 @@ package cat.controller;
 import cat.entity.EstateManager;
 import cat.service.EstateManagerService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -24,6 +26,7 @@ import java.util.Map;
  * @author zxb
  * @since 2022-09-06
  */
+@Slf4j
 @RestController
 @RequestMapping("/community/estateManager")
 public class EstateManagerController {
@@ -67,27 +70,74 @@ public class EstateManagerController {
 //
 //    }
 
-    @PostMapping("login")
-    public R<Map<String, Object>> login() {
-        //{"code":20000,"data":{"token":"admin-token"}}
-        Map<String,Object> map = new HashMap<>();
-        map.put("token","admin-token");
-        return R.success(map);
+//    @PostMapping("login")
+//    public R<Map<String, Object>> login() {
+//        //{"code":20000,"data":{"token":"admin-token"}}
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("token","admin-token");
+//        return R.success(map);
+//    }
+
+
+//    @GetMapping("info")
+//    public R<Map<String, Object>> info() {
+//        //{"code":20000,"data":
+//        // {"roles":["admin"],
+//        // "introduction":"I am a super administrator",
+//        // "avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+//        // "name":"Super Admin"}}
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("roles","admin");
+//        map.put("introduction","I am a super administrator");
+//        map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+//        map.put("name","Super Admin");
+//        return R.success(map);
+//    }
+
+
+    @PostMapping("/login")
+    public R<EstateManager> login(HttpServletRequest request, @RequestBody EstateManager estateManager){
+        log.info("登陆信息：{}",estateManager);
+        String password = estateManager.getPassword();
+        //2、根据用户名查询数据库对应信息
+        //a、用lambdaquerywrapper对象
+        LambdaQueryWrapper<EstateManager> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(estateManager.getUserName()!=null,EstateManager::getUserName,estateManager.getUserName());
+        EstateManager esm = service.getOne(queryWrapper);
+        //3、先判断该用户是否存在
+        if (esm == null){
+            return R.error("用户不存在");
+        }
+        //4、验证密码
+        if (! password.equals(esm.getPassword())){
+            return R.error("密码不正确");
+        }
+        estateManager.setToken(UUID.randomUUID().toString());
+
+        //5、将用户信息存储到session域里
+        request.getSession().setAttribute("estateManager",estateManager.getId());
+
+        return  R.success(esm);
+
     }
 
-    @GetMapping("info")
-    public R<Map<String, Object>> info() {
-        //{"code":20000,"data":
-        // {"roles":["admin"],
-        // "introduction":"I am a super administrator",
-        // "avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
-        // "name":"Super Admin"}}
-        Map<String,Object> map = new HashMap<>();
-        map.put("roles","admin");
-        map.put("introduction","I am a super administrator");
-        map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        map.put("name","Super Admin");
-        return R.success(map);
+
+
+    /**
+     * @description:退出登陆
+     * @param:
+     * @returm:
+     */
+    @PostMapping("/logout")
+    public R<String> logout(HttpServletRequest request){
+        //1、从session域将employee对应的值清空
+        request.getSession().removeAttribute("estateManager");
+        return R.success("退出登陆成功");
     }
+
+
+
+
+
 }
 

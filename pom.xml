@@ -41,6 +41,8 @@
         <mysql-connector-java.version>8.0.23</mysql-connector-java.version>
         <druid.version>1.2.11</druid.version>
         <druid-spring-boot-starter.version>1.2.11</druid-spring-boot-starter.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <java-jwt.version>3.10.3</java-jwt.version>
 
 
     </properties>
@@ -149,6 +151,14 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring-boot-starter.version}</version>
+            </dependency>
+
+
+
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
             </dependency>
 
         </dependencies>

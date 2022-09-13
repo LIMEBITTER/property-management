@@ -16,7 +16,6 @@
         <module>pm-service-owner</module>
         <module>pm-service-parking</module>
         <module>pm-service-property</module>
-        <module>pm-service-role</module>
     </modules>
 
     <properties>
@@ -60,6 +59,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- 高版本需要loadbalancer依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-loadbalancer</artifactId>
         </dependency>
 
         <!-- 流量控制 -->

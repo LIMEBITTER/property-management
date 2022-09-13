@@ -53,5 +53,7 @@ public class Complaint implements Serializable {
 //    @ApiModelProperty("状态：0-未受理，1-已受理（默认），2-已处理完毕")
     private String status;
 
+    private String answer;
+
 
 }
