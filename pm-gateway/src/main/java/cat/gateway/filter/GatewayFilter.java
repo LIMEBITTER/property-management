@@ -1,4 +1,4 @@
-package cat.gateway;
+package cat.gateway.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -48,7 +48,7 @@ public class GatewayFilter implements GlobalFilter, Ordered {
         }
 
         System.out.println("=========="+request.getHeaders());
-        if (request.getHeaders().getFirst("token").length()>0){
+        if (request.getHeaders()!=null){
             return chain.filter(exchange);
         }
         exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);

@@ -2,10 +2,9 @@ package cat.controller;
 
 
 
+import cat.client.CommunityClient;
 import cat.client.OwnerClient;
-import cat.dto.OwnerDto;
 import cat.dto.ParkingDto;
-import cat.entity.Owner;
 import cat.entity.Parking;
 import cat.entity.QueryPageBean;
 import cat.service.ParkingService;
@@ -36,6 +35,9 @@ public class ParkingController {
     ParkingService service;
 
     @Autowired
+    CommunityClient communityClient;
+
+    @Autowired
     OwnerClient ownerClient;
 
     //分页获取小区信息
@@ -59,12 +61,15 @@ public class ParkingController {
         List<ParkingDto> list = records.stream().map(parking -> {
             ParkingDto parkingDto = new ParkingDto();
             //从owner表获取id
+            Integer communityId = parking.getCommunityId();
+            System.out.println("========getCommunityId======"+communityId);
             Integer ownerId = parking.getOwnerId();
-            System.out.println("========ownerid======"+ownerId);
             //通过feign调用community controller方法查询社区名称
+            String communityName = communityClient.findNameById(communityId);
             String ownerName = ownerClient.findNameById(ownerId);
 
             BeanUtils.copyProperties(parking, parkingDto);
+            parkingDto.setCommunityName(communityName);
             parkingDto.setOwnerName(ownerName);
             return parkingDto;
         }).collect(Collectors.toList());

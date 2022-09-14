@@ -6,16 +6,15 @@ import cat.service.EstateManagerService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
+
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
-import result.Result;
+
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+
+
 import java.util.UUID;
 
 /**
@@ -100,7 +99,7 @@ public class EstateManagerController {
         log.info("登陆信息：{}",estateManager);
         String password = estateManager.getPassword();
         //2、根据用户名查询数据库对应信息
-        //a、用lambdaquerywrapper对象
+        //a、用LambdaQueryWrapper对象
         LambdaQueryWrapper<EstateManager> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(estateManager.getUserName()!=null,EstateManager::getUserName,estateManager.getUserName());
         EstateManager esm = service.getOne(queryWrapper);
@@ -124,9 +123,8 @@ public class EstateManagerController {
 
 
     /**
-     * @description:退出登陆
-     * @param:
-     * @returm:
+     * 退出登陆
+     *
      */
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request){

@@ -120,6 +120,10 @@ public class OwnerController {
     @PostMapping("{ownerId}")
     public String findNameById(@PathVariable Integer ownerId){
         Owner byId = service.getById(ownerId);
+        System.out.println("======查询到的owner信息===="+byId);
+        if (byId==null){
+            return "-1";
+        }
         String name = byId.getName();
         return name;
 

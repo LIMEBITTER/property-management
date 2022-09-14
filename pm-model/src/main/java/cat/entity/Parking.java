@@ -28,15 +28,15 @@ public class Parking implements Serializable {
     private Integer id;
 
 //    @ApiModelProperty("所属小区名称")
-    private String communityName;
+    private Integer communityId;
     //
     private Integer ownerId;
 
 //    @ApiModelProperty("所属小区ID")
-    private Integer communityId;
+//    private Integer communityId;
 
 //    @ApiModelProperty("车位图片")
-    private String picture;
+//    private String picture;
 
 //    @ApiModelProperty("车位编号")
     private String code;
@@ -49,6 +49,8 @@ public class Parking implements Serializable {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
+    private Integer status;
 
 
 }

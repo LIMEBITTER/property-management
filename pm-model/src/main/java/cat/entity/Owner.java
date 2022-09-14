@@ -67,5 +67,6 @@ public class Owner implements Serializable {
 //    @ApiModelProperty("出生日期")
     private Date birthday;
 
+    private String status;
 
 }
