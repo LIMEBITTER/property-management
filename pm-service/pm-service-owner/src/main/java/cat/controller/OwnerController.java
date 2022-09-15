@@ -4,18 +4,23 @@ package cat.controller;
 import cat.client.CommunityClient;
 import cat.dto.OwnerDto;
 import cat.entity.Community;
+import cat.entity.EstateManager;
 import cat.entity.Owner;
 import cat.entity.QueryPageBean;
 import cat.service.OwnerService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
 
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +31,7 @@ import java.util.stream.Collectors;
  * @author zxb
  * @since 2022-09-07
  */
+@Slf4j
 @RestController
 @RequestMapping("/owner/info")
 public class OwnerController {
@@ -35,7 +41,6 @@ public class OwnerController {
 
     @Autowired
     private CommunityClient communityClient;
-
 
 
     //分页获取小区信息
@@ -141,6 +146,20 @@ public class OwnerController {
 
 
 
+
+    //根据ownerid查询业主信息
+    @PostMapping("/selectById")
+    public R<Owner> selectById(@RequestBody Owner owner){
+        Integer id = owner.getId();
+        System.out.println(id);
+        Owner owner1 = service.getById(id);
+        System.out.println(owner1);
+        if (owner1==null){
+            return R.error("用户不存在");
+        }
+//        System.out.println(R.success(owner1));
+        return R.success(owner1);
+    }
 
 }
 

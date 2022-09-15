@@ -1,6 +1,7 @@
 package cat.gateway.filter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -29,6 +30,7 @@ public class GatewayFilter implements GlobalFilter, Ordered {
     private final AntPathMatcher pathMatcher=new AntPathMatcher();
 
 
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -47,10 +49,12 @@ public class GatewayFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        System.out.println("=========="+request.getHeaders());
+        System.out.println("====当前请求认证====="+request.getHeaders().getFirst("owner_token"));
+        //认证token
         if (request.getHeaders()!=null){
             return chain.filter(exchange);
         }
+
         exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);
         return exchange.getResponse().setComplete();
     }

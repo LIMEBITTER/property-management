@@ -25,7 +25,7 @@ public class Owner implements Serializable {
     private static final long serialVersionUID = 1L;
 
 //    @ApiModelProperty("业主ID")
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Integer id;
 
 //    @ApiModelProperty("所属小区")
@@ -47,16 +47,16 @@ public class Owner implements Serializable {
     private Integer telephone;
 
 //    @ApiModelProperty("职业")
-    private String profession;
+//    private String profession;
 
 //    @ApiModelProperty("性别:0-男（默认），1-女")
     private String sex;
 
 //    @ApiModelProperty("类型:0-房主（默认），1-租客")
-    private String type;
+//    private String type;
 
 //    @ApiModelProperty("备注（默认无）")
-    private String remark;
+//    private String remark;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -67,6 +67,10 @@ public class Owner implements Serializable {
 //    @ApiModelProperty("出生日期")
     private Date birthday;
 
-    private String status;
+    private Integer status;
+
+    private String userName;
+    private String password;
+    private String ownerToken;
 
 }
