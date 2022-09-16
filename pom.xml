@@ -20,6 +20,7 @@
         <module>pm-auth</module>
         <module>pm-service</module>
         <module>pm-model</module>
+
     </modules>
 
 
@@ -43,6 +44,7 @@
         <druid-spring-boot-starter.version>1.2.11</druid-spring-boot-starter.version>
         <jjwt.version>0.9.1</jjwt.version>
         <java-jwt.version>3.10.3</java-jwt.version>
+        <baidu-aip.version>4.15.1</baidu-aip.version>
 
 
     </properties>
@@ -159,6 +161,12 @@
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
                 <version>${java-jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baidu.aip</groupId>
+                <artifactId>java-sdk</artifactId>
+                <version>${baidu-aip.version}</version>
             </dependency>
 
         </dependencies>
