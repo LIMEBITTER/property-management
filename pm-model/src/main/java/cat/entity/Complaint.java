@@ -26,6 +26,9 @@ public class Complaint implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    //业务流水号
+    private String businessRid;
+
 //    @ApiModelProperty("所属小区名称")
     private String communityName;
 

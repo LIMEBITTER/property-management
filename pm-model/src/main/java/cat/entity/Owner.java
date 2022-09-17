@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -72,5 +73,8 @@ public class Owner implements Serializable {
     private String userName;
     private String password;
     private String ownerToken;
+
+    //一个业主表有很多投诉
+    private List<Complaint> complaintList;
 
 }

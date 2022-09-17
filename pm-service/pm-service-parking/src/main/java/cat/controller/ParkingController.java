@@ -5,6 +5,7 @@ package cat.controller;
 import cat.client.CommunityClient;
 import cat.client.OwnerClient;
 import cat.dto.ParkingDto;
+import cat.entity.Owner;
 import cat.entity.Parking;
 import cat.entity.QueryPageBean;
 import cat.service.ParkingService;
@@ -94,6 +95,7 @@ public class ParkingController {
 //        e.setUpdateTime(LocalDateTime.now());
         System.out.println("=============修改parkinginfo============="+parking);
         boolean update = service.updateById(parking);
+        System.out.println(update);
 
 
         if (update){
@@ -116,6 +118,27 @@ public class ParkingController {
 
         }
         return R.error("删除停车位信息失败");
+    }
+
+    //获取所有小区的名称
+    @GetMapping("/getParkingList")
+    public R<List<Parking>> getParkingList(){
+
+        List<Parking> list = service.list();
+
+        return R.success(list);
+    }
+
+
+    //获取所有小区的名称
+    @PostMapping("/selectById")
+    public R<Parking> selectById(@RequestBody Parking parking){
+        Integer id = parking.getId();
+        Parking byId = service.getById(id);
+
+
+
+        return R.success(byId);
     }
 
 }

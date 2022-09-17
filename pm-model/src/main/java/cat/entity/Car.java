@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.Data;
 
 
@@ -22,7 +24,7 @@ public class Car implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    @ApiModelProperty("车辆ID")
+//    @ApiModelProperty("业主id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
@@ -46,6 +48,7 @@ public class Car implements Serializable {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
 
 
 }

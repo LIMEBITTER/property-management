@@ -32,12 +32,6 @@ public class Parking implements Serializable {
     //
     private Integer ownerId;
 
-//    @ApiModelProperty("所属小区ID")
-//    private Integer communityId;
-
-//    @ApiModelProperty("车位图片")
-//    private String picture;
-
 //    @ApiModelProperty("车位编号")
     private String code;
 
@@ -51,6 +45,12 @@ public class Parking implements Serializable {
     private LocalDateTime updateTime;
 
     private Integer status;
+
+    private String carNumber;
+
+    private String color;
+
+    private String remark;
 
 
 }
