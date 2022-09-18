@@ -61,6 +61,12 @@ public class EstateManager implements Serializable {
 
     private String token;
 
+    private String socialUid;
+
+    private String accessToken;
+
+    private Long expiresIn;
+
 
 
 }

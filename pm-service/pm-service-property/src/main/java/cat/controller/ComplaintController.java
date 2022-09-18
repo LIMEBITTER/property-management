@@ -61,7 +61,6 @@ public class ComplaintController {
         System.out.println("=============修改Complaint============="+complaint);
         boolean update = service.updateById(complaint);
 
-
         if (update){
             return R.success("修改投诉信息成功");
 

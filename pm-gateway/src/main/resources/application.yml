@@ -40,3 +40,7 @@ spring:
           uri: lb://pm-service-role
           predicates:
             - Path=/role/**,
+        - id: pm-auth
+          uri: lb://pm-auth
+          predicates:
+            - Path=/auth/**,

@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
@@ -41,6 +42,9 @@ public class OwnerController {
 
     @Autowired
     private CommunityClient communityClient;
+
+
+
 
 
     //分页获取小区信息

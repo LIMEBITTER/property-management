@@ -35,3 +35,8 @@ mybatis-plus:
 #    db-config:
 #      id-type:
 
+gitee:
+  oauth:
+    clientid: 068b619f6c8711924ed0494bbf936cd5c8ed8b87999b2bffa614d9ec15298f68
+    clientsecret: 366bb54937ec6d729d2dc2048dc2c71a2182818c3d60b15f4893f32733a4811b
+    callback: http://localhost:8080/#/pages/my/my

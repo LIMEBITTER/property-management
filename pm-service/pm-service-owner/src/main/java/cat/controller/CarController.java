@@ -114,7 +114,23 @@ public class CarController {
     }
 
 
-
+//    //根据ownerid查询业主信息
+//    @PostMapping("/selectById")
+//    public R<Car> selectById(@RequestBody Car car){
+//        Integer id = car.getId();
+//        System.out.println(id);
+//        Car car1 = service.getById(id);
+//
+//
+//
+//
+//        System.out.println(carList);
+//        if (car1==null){
+//            return R.error("用户不存在");
+//        }
+////        System.out.println(R.success(owner1));
+//        return R.success(car1);
+//    }
 
 }
 
