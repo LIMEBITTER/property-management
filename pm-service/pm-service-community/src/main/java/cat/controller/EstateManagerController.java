@@ -111,10 +111,13 @@ public class EstateManagerController {
         if (! password.equals(esm.getPassword())){
             return R.error("密码不正确");
         }
+        request.getSession();
         estateManager.setToken(UUID.randomUUID().toString());
+        System.out.println("login中读取到的seiion"+request.getSession().getAttribute("social_user"));
+        System.out.println("login中读取到的seiion1"+request.getSession().getAttribute("sessionAttr:social_user"));
 
         //5、将用户信息存储到session域里
-        request.getSession().setAttribute("estateManager",estateManager.getId());
+//        request.getSession().setAttribute("estateManager",estateManager.getId());
 
         return  R.success(esm);
 

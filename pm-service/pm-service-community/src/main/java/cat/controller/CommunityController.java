@@ -7,11 +7,16 @@ import cat.service.CommunityService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
 import result.Result;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -31,7 +36,7 @@ public class CommunityController {
 
     //分页获取小区信息
     @PostMapping("/getAllCommunities")
-    public R<Page<Community>> getAllCommunities(@RequestBody QueryPageBean queryPageBean , HttpSession session){
+    public R<Page<Community>> getAllCommunities(@RequestBody QueryPageBean queryPageBean){
         System.out.println(queryPageBean);
         //page对象需要接收当前页和每页条数
         Page<Community> pageInfo = new Page<>(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
@@ -39,9 +44,6 @@ public class CommunityController {
         LambdaQueryWrapper<Community> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(queryPageBean.getQueryString()!=null, Community::getName,queryPageBean.getQueryString());
         Page<Community> categoryList = service.page(pageInfo, queryWrapper);
-        Object myapp = session.getAttribute("myapp");
-
-        System.out.println("====存储session==="+myapp);
 
         return R.success(categoryList);
     }

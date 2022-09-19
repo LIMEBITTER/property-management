@@ -29,6 +29,13 @@ public class R<T> {
         r.code = 20001;
         return r;
     }
+    //存在
+    public static <T> R<T> hasExisted(String msg) {
+        R r = new R();
+        r.msg = msg;
+        r.code = 30000;
+        return r;
+    }
 
     public R<T> add(String key, Object value) {
         this.map.put(key, value);
