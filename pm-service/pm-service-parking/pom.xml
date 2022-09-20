@@ -24,8 +24,6 @@
             <scope>test</scope>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>

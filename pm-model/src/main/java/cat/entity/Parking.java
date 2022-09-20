@@ -23,19 +23,17 @@ public class Parking implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    @ApiModelProperty("车位ID")
+//    车位ID
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-//    @ApiModelProperty("所属小区名称")
-    private Integer communityId;
-    //
+    //小区业主id
     private Integer ownerId;
 
-//    @ApiModelProperty("车位编号")
+//   车位编号
     private String code;
 
-//    @ApiModelProperty("车位名称")
+//   车位名称
     private String name;
 
     @TableField(fill = FieldFill.INSERT)
@@ -44,12 +42,16 @@ public class Parking implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    //车位使用状态
     private Integer status;
 
+    //若被使用时，该车位的车牌号
     private String carNumber;
 
+    //车辆颜色
     private String color;
 
+    //备注
     private String remark;
 
 

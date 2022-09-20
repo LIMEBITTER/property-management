@@ -5,9 +5,8 @@ package cat.controller;
 import cat.client.CommunityClient;
 import cat.client.OwnerClient;
 import cat.dto.ParkingDto;
-import cat.entity.Owner;
 import cat.entity.Parking;
-import cat.entity.QueryPageBean;
+import cat.vo.QueryPageBean;
 import cat.service.ParkingService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -62,15 +61,15 @@ public class ParkingController {
         List<ParkingDto> list = records.stream().map(parking -> {
             ParkingDto parkingDto = new ParkingDto();
             //从owner表获取id
-            Integer communityId = parking.getCommunityId();
-            System.out.println("========getCommunityId======"+communityId);
+//            Integer communityId = parking.getCommunityId();
+//            System.out.println("========getCommunityId======"+communityId);
             Integer ownerId = parking.getOwnerId();
             //通过feign调用community controller方法查询社区名称
-            String communityName = communityClient.findNameById(communityId);
+//            String communityName = communityClient.findNameById(communityId);
             String ownerName = ownerClient.findNameById(ownerId);
 
             BeanUtils.copyProperties(parking, parkingDto);
-            parkingDto.setCommunityName(communityName);
+//            parkingDto.setCommunityName(communityName);
             parkingDto.setOwnerName(ownerName);
             return parkingDto;
         }).collect(Collectors.toList());

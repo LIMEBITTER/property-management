@@ -39,7 +39,7 @@ public class MyBatisPlusGenerator {
                 })
                 // 配置策略 StrategyConfig`
                 .strategyConfig(builder -> {
-                    builder.addInclude("tb_role")                   // 增加表匹配，需要映射的数据库表的表名
+                    builder.addInclude("tb_social_user")                   // 增加表匹配，需要映射的数据库表的表名
                             .addTablePrefix("tb_")                       // 增加过滤表前缀，生成时将数据库表的前缀"p_"去掉
                             // 1.实体策略配置
                             .entityBuilder()

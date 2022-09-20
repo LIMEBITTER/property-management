@@ -2,22 +2,15 @@ package cat.controller;
 
 
 import cat.entity.Community;
-import cat.entity.QueryPageBean;
+import cat.vo.QueryPageBean;
 import cat.service.CommunityService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
-import result.Result;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**

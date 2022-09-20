@@ -2,7 +2,7 @@ package cat.controller;
 
 
 import cat.entity.Complaint;
-import cat.entity.QueryPageBean;
+import cat.vo.QueryPageBean;
 import cat.service.ComplaintService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
-
-import javax.websocket.server.PathParam;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * <p>

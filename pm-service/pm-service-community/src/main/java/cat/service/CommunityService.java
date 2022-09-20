@@ -1,11 +1,7 @@
 package cat.service;
 
 import cat.entity.Community;
-import cat.entity.QueryPageBean;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.web.bind.annotation.RequestBody;
-import result.R;
 
 /**
  * <p>

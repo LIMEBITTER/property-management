@@ -2,7 +2,7 @@ package cat.controller;
 
 
 import cat.entity.Activity;
-import cat.entity.QueryPageBean;
+import cat.vo.QueryPageBean;
 import cat.service.ActivityService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

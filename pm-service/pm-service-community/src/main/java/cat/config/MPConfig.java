@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-
+//mp拦截器，配合metadata自动填充
 @Configuration
 public class MPConfig {
     @Bean

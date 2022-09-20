@@ -12,6 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-09-07
  */
 public interface ComplaintService extends IService<Complaint> {
-    boolean rabbitMqSend();
 
 }

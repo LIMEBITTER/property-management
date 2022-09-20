@@ -16,7 +16,7 @@
 
     <modules>
         <module>pm-gateway</module>
-        <module>pm-commom</module>
+        <module>pm-common</module>
         <module>pm-auth</module>
         <module>pm-service</module>
         <module>pm-model</module>
@@ -45,35 +45,10 @@
         <jjwt.version>0.9.1</jjwt.version>
         <java-jwt.version>3.10.3</java-jwt.version>
         <baidu-aip.version>4.15.1</baidu-aip.version>
+        <fast-json.version>1.2.51</fast-json.version>
 
 
     </properties>
-<!--    <dependencies>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-test</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.junit.vintage</groupId>-->
-<!--                    <artifactId>junit-vintage-engine</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
-<!--    </dependencies>-->
-    <dependencies>
-
-    </dependencies>
-
 
     <dependencyManagement>
         <dependencies>
@@ -167,6 +142,12 @@
                 <groupId>com.baidu.aip</groupId>
                 <artifactId>java-sdk</artifactId>
                 <version>${baidu-aip.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fast-json.version}</version>
             </dependency>
 
         </dependencies>

@@ -42,6 +42,11 @@ public class GatewayFilter implements GlobalFilter, Ordered {
         String[] urls={
 
                 "/community/estateManager/login",
+                "/community/estateManager/register",
+                "/auth/oauth2/gitee/success",
+                "/owner/info/gitee/authLogin",
+                "/owner/info/gitee/getSocialUser",
+                "owner/info/gitee/deleteSocialUser"
         };
         boolean flag = checkUrl(urls, requestURI);
         log.info("路径匹配返回值：{}",flag);
@@ -49,9 +54,9 @@ public class GatewayFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        System.out.println("====当前请求认证====="+request.getHeaders().getFirst("owner_token"));
+        System.out.println("====当前请求认证====="+request.getHeaders().getFirst("token"));
         //认证token
-        if (request.getHeaders()!=null){
+        if (request.getHeaders().getFirst("token")!=""){
             return chain.filter(exchange);
         }
 
