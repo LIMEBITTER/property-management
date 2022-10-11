@@ -9,13 +9,12 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
 
-
     gateway:
       discovery:
         locator:
           enabled: true
 
-      routes:
+      routes: # w网关路由配置
         - id: service-community
           uri: lb://pm-service-community
           predicates:
@@ -44,3 +43,6 @@ spring:
           uri: lb://pm-auth
           predicates:
             - Path=/auth/**,
+#          filters: # 过滤器
+#            -AddRequestHeader = Truth,I am your god! # 添加请求头
+

@@ -25,6 +25,7 @@ import java.util.Objects;
  */
 @Component
 @Slf4j
+
 public class GatewayFilter implements GlobalFilter, Ordered {
 
     private final AntPathMatcher pathMatcher=new AntPathMatcher();
@@ -44,10 +45,15 @@ public class GatewayFilter implements GlobalFilter, Ordered {
                 "/community/estateManager/login",
                 "/community/estateManager/register",
                 "/auth/oauth2/gitee/success",
+                "/owner/info/login",
+                "/owner/info/register",
                 "/owner/info/gitee/authLogin",
                 "/owner/info/gitee/getSocialUser",
-                "owner/info/gitee/deleteSocialUser"
+                "/owner/info/gitee/deleteSocialUser",
+                "/owner/info/gitee/getOwnerByName",
+
         };
+        //判断当前路径
         boolean flag = checkUrl(urls, requestURI);
         log.info("路径匹配返回值：{}",flag);
         if (flag){
@@ -55,7 +61,7 @@ public class GatewayFilter implements GlobalFilter, Ordered {
         }
 
         System.out.println("====当前请求认证====="+request.getHeaders().getFirst("token"));
-        //认证token
+        //认证token getFirst获取当前第一个键值
         if (request.getHeaders().getFirst("token")!=""){
             return chain.filter(exchange);
         }
@@ -63,6 +69,25 @@ public class GatewayFilter implements GlobalFilter, Ordered {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);
         return exchange.getResponse().setComplete();
     }
+
+
+
+
+    public boolean checkUrl(String[] urls,String uri){
+        for (String url : urls) {
+            boolean flag = pathMatcher.match(url, uri);
+            if (flag){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
+    }
+
 
     /**
      * 认证
@@ -85,21 +110,6 @@ public class GatewayFilter implements GlobalFilter, Ordered {
 //        return token;
 //    }
 
-
-    public boolean checkUrl(String[] urls,String uri){
-        for (String url : urls) {
-            boolean flag = pathMatcher.match(url, uri);
-            if (flag){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public int getOrder() {
-        return 0;
-    }
 
 }
 

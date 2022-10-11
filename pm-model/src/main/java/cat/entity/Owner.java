@@ -71,5 +71,7 @@ public class Owner implements Serializable {
 
     private String refreshToken;
 
+//    private String avatarUrl;
+
 
 }

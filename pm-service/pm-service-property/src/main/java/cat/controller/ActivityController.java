@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import result.R;
 
+import java.util.List;
+
 /**
  * <p>
  * 活动表 前端控制器
@@ -40,6 +42,8 @@ public class ActivityController {
 //        System.out.println(carList.toString());
         return R.success(activityList);
     }
+
+
     //新增
     @PostMapping("/add")
     public R<String> add(@RequestBody Activity activity){
@@ -78,6 +82,13 @@ public class ActivityController {
 
         }
         return R.error("删除活动信息失败");
+    }
+
+    //获取所有活动信息（不分页）
+    @GetMapping("/getAllActivities")
+    public R<List<Activity>> getAllActivities(){
+        List<Activity> list = service.list();
+        return R.success(list);
     }
 
 }

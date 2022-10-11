@@ -2,14 +2,20 @@ package cat.controller;
 
 
 import cat.entity.Complaint;
+import cat.entity.ComplaintType;
+import cat.entity.Owner;
+import cat.service.ComplaintTypeService;
 import cat.vo.QueryPageBean;
 import cat.service.ComplaintService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import result.R;
+
+import java.util.List;
 
 /**
  * <p>
@@ -26,7 +32,10 @@ public class ComplaintController {
     @Autowired
     ComplaintService service;
 
-    //分页获取小区信息
+    @Autowired
+    ComplaintTypeService complaintTypeService;
+
+    //分页获取投诉信息
     @PostMapping("/getAllComplaints")
     public R<Page<Complaint>> getAllCommunities(@RequestBody QueryPageBean queryPageBean){
         System.out.println(queryPageBean);
@@ -37,6 +46,10 @@ public class ComplaintController {
         //通过 投诉名称 来查询
         queryWrapper.like(queryPageBean.getQueryString()!=null, Complaint::getDescriptionName,queryPageBean.getQueryString());
         Page<Complaint> complaintList = service.page(pageInfo, queryWrapper);
+
+//        Page<ComplaintType> complaintTypePage = new Page<>();
+
+
 //        System.out.println(carList.toString());
         return R.success(complaintList);
     }
@@ -77,6 +90,14 @@ public class ComplaintController {
 
         }
         return R.error("删除投诉信息失败");
+    }
+    //根据处理状态查询对应的投诉
+    @PostMapping("/selectByStatus")
+    public R<List<Complaint>> selectByStatus(@RequestBody Complaint complaint){
+        LambdaQueryWrapper<Complaint> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(complaint.getStatus()!=null, Complaint::getStatus, complaint.getStatus());
+        List<Complaint> list = service.list(queryWrapper);
+        return R.success(list);
     }
 
 

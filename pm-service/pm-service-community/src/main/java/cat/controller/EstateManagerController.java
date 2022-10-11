@@ -42,11 +42,10 @@ public class EstateManagerController {
         log.info("登陆信息：{}",estateManager);
         String password = estateManager.getPassword();
         //2、根据用户名查询数据库对应信息
-        //a、用LambdaQueryWrapper对象
         LambdaQueryWrapper<EstateManager> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(estateManager.getUserName()!=null,EstateManager::getUserName,estateManager.getUserName());
         EstateManager esm = service.getOne(queryWrapper);
-        //3、先判断该用户是否存在
+        //3、判断该用户是否存在
         if (esm == null){
             return R.error("用户不存在");
         }
@@ -55,14 +54,9 @@ public class EstateManagerController {
             return R.error("密码不正确");
         }
         //已有token,不重新设token
-//        if(esm.getToken()==null){
             esm.setToken(UUID.randomUUID().toString());
             service.updateById(esm);
-//        }
-
-
         return  R.success(esm);
-
     }
     @PostMapping("/register")
     public R<String> register(@RequestBody EstateManager estateManager)  {

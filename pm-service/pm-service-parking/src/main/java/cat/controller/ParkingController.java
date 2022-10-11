@@ -96,7 +96,6 @@ public class ParkingController {
         boolean update = service.updateById(parking);
         System.out.println(update);
 
-
         if (update){
             return R.success("修改停车位信息成功");
 
@@ -139,6 +138,22 @@ public class ParkingController {
 
         return R.success(byId);
     }
+
+
+    //根据ownerid查询当前停车位状态
+    @PostMapping("/selectStatusByOwnerId")
+    public R<Parking> selectStatusByOwnerId(@RequestBody Parking parking){
+        Integer ownerId = parking.getOwnerId();
+        System.out.println("================="+ownerId);
+        LambdaQueryWrapper<Parking> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(parking.getOwnerId()!=null, Parking::getOwnerId, parking.getOwnerId());
+        Parking one = service.getOne(queryWrapper);
+        if (one==null){
+            return R.error("当前用户未使用停车位！");
+        }
+        return R.success(one);
+    }
+
 
 }
 

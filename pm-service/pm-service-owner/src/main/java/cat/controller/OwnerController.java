@@ -52,7 +52,6 @@ public class OwnerController {
     //分页获取小区信息
     @PostMapping("/getAllOwners")
     public R<Page<OwnerDto>> getAllCommunities(@RequestBody QueryPageBean queryPageBean){
-//        System.out.println("==========执行client=========="+communityClient.findById(1));
         System.out.println(queryPageBean);
         //page对象需要接收当前页和每页条数
         Page<Owner> pageInfo = new Page<>(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
@@ -60,31 +59,22 @@ public class OwnerController {
         LambdaQueryWrapper<Owner> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(queryPageBean.getQueryString()!=null, Owner::getName,queryPageBean.getQueryString());
         Page<Owner> ownerPage = service.page(pageInfo, queryWrapper);
-
         //跨表查询！！！！
         Page<OwnerDto> ownerPage1 = new Page<>();
         BeanUtils.copyProperties(ownerPage, ownerPage1,"records");
-
         List<Owner> records = ownerPage.getRecords();
-
         List<OwnerDto> list = records.stream().map(owner -> {
             OwnerDto owner1 = new OwnerDto();
             //从owner表获取社区id
             Integer communityId = owner.getCommunityId();
-            System.out.println("========社区id======"+communityId);
             //通过feign调用community controller方法查询社区名称
             String communityName = communityClient.findNameById(communityId);
-
             BeanUtils.copyProperties(owner, owner1);
             owner1.setCommunityName(communityName);
             return owner1;
         }).collect(Collectors.toList());
 
         ownerPage1.setRecords(list);
-
-//        System.out.println();
-
-
         return R.success(ownerPage1);
     }
     //新增
@@ -171,6 +161,7 @@ public class OwnerController {
         LambdaQueryWrapper<Owner> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(owner.getUserName()!=null,Owner::getUserName,owner.getUserName());
         Owner owner1 = service.getOne(queryWrapper);
+
         //3、先判断该用户是否存在
         if (owner1 == null){
             return R.error("用户不存在");
@@ -224,21 +215,47 @@ public class OwnerController {
      * 请求授权页面
      */
     @PostMapping(value = "/gitee/authLogin")
-    public R<String> authLogin(@RequestBody Owner owner) {
+    public R<Owner> authLogin(@RequestBody Owner owner) {
+        Owner owner1 = new Owner();
+        owner1.setUserName(owner.getName());
+        System.out.println("======authlogin中的owner1=="+owner1);
         LambdaQueryWrapper<Owner> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(owner.getName()!= null, Owner::getName, owner.getName());
-        Owner owner1 = service.getOne(queryWrapper);
 
-        if (owner1==null){
+        queryWrapper.eq(owner1.getUserName()!= null, Owner::getUserName, owner1.getUserName());
+        System.out.println(queryWrapper);
+        Owner owner2 = service.getOne(queryWrapper);
+
+        if (owner2==null){
             log.info("社交用户无对应信息，注册！");
-            owner.setToken(UUID.randomUUID().toString());
-            service.save(owner);
-            return R.success("注册成功");
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = dateFormat.parse("1978-01-01");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            owner1.setBirthday(date);
+            owner1.setToken(UUID.randomUUID().toString());
+            owner1.setPassword("123");
+
+            service.save(owner1);
+            return R.success(owner1);
         }
         log.info("社交用户有对应信息！");
-        return R.hasExisted("登录成功");
+        return R.success(owner2);
     }
 
+    @PostMapping("/gitee/getOwnerByName")
+    public R<Owner> getOwnerByName(@RequestBody Owner owner){
+        System.out.println("getownerbyname"+owner);
+        LambdaQueryWrapper<Owner> queryWrapper = new LambdaQueryWrapper<>();
+
+        queryWrapper.eq(owner.getUserName()!= null, Owner::getUserName, owner.getUserName());
+        Owner owner1 = service.getOne(queryWrapper);
+        return R.success(owner1);
+    }
 
     @GetMapping("/gitee/getSocialUser")
     public R<String> getSocialUser(){

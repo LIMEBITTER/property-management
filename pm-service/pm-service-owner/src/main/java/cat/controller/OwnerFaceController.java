@@ -47,20 +47,16 @@ public class OwnerFaceController {
         if (multipartFile.isEmpty()) {
             throw new BizException("上传文件不能为空");
         }
-//        String groupIds = "owner";
         String data = FaceUtil.encodeBase64(multipartFile.getBytes());
         ImageU imageU = ImageU.builder().data(data).imageTypeEnum(ImageTypeEnum.BASE64).build();
         //在百度人脸库中查询groupid对应的image并对比
         FaceResult result = FaceManage.faceSearch(groupId, imageU);
-
         //返回user对象，是否存在该人脸
         String users = result.getData().getString(FaceConstant.USER_LIST);
         System.out.println("存在次user"+users);
-
         if (StringUtils.isEmpty(users)){
             return R.error("用户不存在");
         }
-
         JSONArray array = JSONObject.parseArray(users);
         JSONObject object = JSONObject.parseObject(array.get(0).toString());
         Integer score = object.getInteger(FaceConstant.SCORE);

@@ -2,9 +2,7 @@ package cat.auth.controller;
 
 import cat.auth.client.OwnerClient;
 
-import cat.dto.OwnerRoleDto;
 import cat.entity.Owner;
-import cat.entity.SocialUser;
 import com.alibaba.fastjson.JSON;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,32 +41,27 @@ public class Oauth2Controller {
     StringRedisTemplate stringRedisTemplate;
 
     @GetMapping("/oauth2/gitee/success")
-    public String weibo(@RequestParam("code") String code) throws Exception {
-        String url = "https://gitee.com/oauth/token?grant_type=authorization_code&code="+code+"&client_id=068b619f6c8711924ed0494bbf936cd5c8ed8b87999b2bffa614d9ec15298f68&redirect_uri=http://localhost:9444/auth/oauth2/gitee/success&client_secret=366bb54937ec6d729d2dc2048dc2c71a2182818c3d60b15f4893f32733a4811b";
+    public String gitTee(@RequestParam("code") String code) throws Exception {
+        String url = "https://gitee.com/oauth/token?grant_type=authorization_code&code="+code+
+                "&client_id=068b619f6c8711924ed0494bbf936cd5c8ed8b87999b2bffa614d9ec15298f68&redirect_uri=" +
+                "http://localhost:9444/auth/oauth2/gitee/success&client_secret=366bb54937ec6d729d2dc2048dc2c71a2182818c3d60b15f4893f32733a4811b";
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(url);
         HttpResponse response = httpClient.execute(httpPost);
-//        //2、处理
+        //2、处理
         if (response.getStatusLine().getStatusCode()==200){
             //获取到了accessToken
             String json = EntityUtils.toString(response.getEntity());
-
             Owner socialUser = JSON.parseObject(json, Owner.class);
             String access_token = socialUser.getAccessToken();
             //通过获取到的access_token查询user信息
             String url2 = "https://gitee.com/api/v5/user?access_token="+access_token;
-            System.out.println("====access_token====="+access_token+url2);
-
             HttpGet httpPost2 = new HttpGet(url2);
             HttpResponse response2 = httpClient.execute(httpPost2);
             //获取到了userinfo
             String json2 = EntityUtils.toString(response2.getEntity());
-//            OwnerRoleDto ownerRoleDto = JSON.parseObject(json2, OwnerRoleDto.class);
             Owner owner = JSON.parseObject(json2, Owner.class);
             String name = owner.getName();
-
-
-            System.out.println("====用户信息==="+owner);
             //进行登录或者注册
             ownerClient.authLogin(owner);
             //将数据信息存入redis中
@@ -76,11 +69,10 @@ public class Oauth2Controller {
             ops.set("social_user", owner.toString());
             ops.set("social_user_name", name);
 
-            return "redirect:http://localhost:8080/#/pages/my/my";
-        }
             return "redirect:http://localhost:8080/#/pages/owner-login/owner-login";
 
-
+        }
+            return "redirect:http://localhost:8080/#/pages/owner-login/owner-login";
 
     }
     @GetMapping("/aaa")

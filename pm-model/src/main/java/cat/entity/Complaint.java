@@ -54,6 +54,8 @@ public class Complaint implements Serializable {
 
     //投诉的回复
     private String answer;
+    //投诉分类id
+    private Integer typeId;
 
 
 }
