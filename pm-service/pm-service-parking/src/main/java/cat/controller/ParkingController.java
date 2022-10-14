@@ -81,12 +81,44 @@ public class ParkingController {
     //新增
     @PostMapping("/add")
     public R<String> add(@RequestBody Parking parking){
+        boolean checkCode = checkParkingCode(parking.getCode());
+        boolean checkName = checkParkingName(parking.getName());
+        //已经有相应的停车位
+        if (checkCode==true){
+            return R.error("重复的车位编号！");
+        }
+        if (checkName==true){
+            return R.error("重复的车位名字！");
+        }
+
         boolean save = service.save(parking);
         if (save){
             return R.success("添加停车位成功");
         }
         return R.error("添加停车位失败");
+
+
     }
+
+    public boolean checkParkingCode(String code){
+        LambdaQueryWrapper<Parking> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(code!=null, Parking::getCode, code);
+        Parking one = service.getOne(queryWrapper);
+        if (one!=null){
+            return true;
+        }
+        return false;
+    }
+    public boolean checkParkingName(String parkingName){
+        LambdaQueryWrapper<Parking> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(parkingName!=null, Parking::getName, parkingName);
+        Parking one = service.getOne(queryWrapper);
+        if (one!=null){
+            return true;
+        }
+        return false;
+    }
+
     //修改
     @PutMapping("/update")
     public R<String> update(@RequestBody Parking parking){

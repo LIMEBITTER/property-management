@@ -80,11 +80,26 @@ public class OwnerController {
     //新增
     @PostMapping("/add")
     public R<String> add(@RequestBody Owner owner){
-        boolean save = service.save(owner);
-        if (save){
-            return R.success("添加业主成功");
+        boolean check = checkIdCard(owner.getIdCard());
+        if (check==false){
+            return R.error("重复的身份证号！");
+        }else{
+            boolean save = service.save(owner);
+            if (save){
+                return R.success("添加业主成功");
+            }
+            return R.error("添加业主失败");
         }
-        return R.error("添加业主失败");
+
+    }
+    public boolean checkIdCard(String idCard){
+        LambdaQueryWrapper<Owner> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(idCard!=null, Owner::getIdCard,idCard);
+        Owner one = service.getOne(queryWrapper);
+        if(one!=null){
+            return true;
+        }
+        return false;
     }
     //修改
     @PutMapping("/update")
