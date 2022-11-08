@@ -42,6 +42,7 @@ public class Oauth2Controller {
 
     @GetMapping("/oauth2/gitee/success")
     public String gitTee(@RequestParam("code") String code) throws Exception {
+        System.out.println("跳转至oauth"+code);
         String url = "https://gitee.com/oauth/token?grant_type=authorization_code&code="+code+
                 "&client_id=068b619f6c8711924ed0494bbf936cd5c8ed8b87999b2bffa614d9ec15298f68&redirect_uri=" +
                 "http://localhost:9444/auth/oauth2/gitee/success&client_secret=366bb54937ec6d729d2dc2048dc2c71a2182818c3d60b15f4893f32733a4811b";
@@ -69,7 +70,7 @@ public class Oauth2Controller {
             ops.set("social_user", owner.toString());
             ops.set("social_user_name", name);
 
-            return "redirect:http://localhost:8080/#/pages/owner-login/owner-login";
+            return "redirect:http://localhost:8080/#/pages/my/my";
 
         }
             return "redirect:http://localhost:8080/#/pages/owner-login/owner-login";

@@ -286,10 +286,12 @@ public class OwnerController {
 
     @GetMapping("/gitee/deleteSocialUser")
     public R<String> deleteSocialUser(){
+        System.out.println("==================删除socialuser========================");
         ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
         Boolean social_user_name = ops.getOperations().delete("social_user_name");
+        Boolean social_user = ops.getOperations().delete("social_user");
         String isDeleted = ops.get("social_user_name");
-        System.out.println("删除redis中的user"+social_user_name);
+        System.out.println("删除redis中的user"+social_user_name+social_user);
 
 
         if (social_user_name){

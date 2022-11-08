@@ -109,6 +109,15 @@ public class ParkingController {
         }
         return false;
     }
+    public boolean checkCarNumber(String number){
+        LambdaQueryWrapper<Parking> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(number!=null, Parking::getCarNumber, number);
+        Parking one = service.getOne(queryWrapper);
+        if (one!=null){
+            return true;
+        }
+        return false;
+    }
     public boolean checkParkingName(String parkingName){
         LambdaQueryWrapper<Parking> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(parkingName!=null, Parking::getName, parkingName);
@@ -125,9 +134,12 @@ public class ParkingController {
 //        e.setUpdateUser(1L);
 //        e.setUpdateTime(LocalDateTime.now());
         System.out.println("=============修改parkinginfo============="+parking);
+        boolean hasMuliNumber = checkCarNumber(parking.getCarNumber());
+        if (hasMuliNumber==true){
+            return R.error("重复的车牌号！");
+        }
         boolean update = service.updateById(parking);
         System.out.println(update);
-
         if (update){
             return R.success("修改停车位信息成功");
 
